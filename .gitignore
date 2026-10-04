@@ -1,0 +1,21 @@
+# MATLAB temporary files
+*.asv
+*.m~
+slprj/
+codegen/
+
+# Generated outputs
+outputs/analysis/*
+!outputs/analysis/.gitkeep
+outputs/figures/*
+!outputs/figures/.gitkeep
+outputs/models/*
+!outputs/models/.gitkeep
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db

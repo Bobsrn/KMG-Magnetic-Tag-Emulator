@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use these data or scripts, please cite the associated manuscript."
+title: "KMG Magnetic-Tag Emulator: Data and Analysis Code"
+type: dataset
+authors:
+  - family-names: "Gholami-Z"
+    given-names: "Mohammad-R"
+  - family-names: "Sarani"
+    given-names: "Babak"
+  - family-names: "Hosseini"
+    given-names: "Hojjat"
+  - family-names: "Akbarzadeh"
+    given-names: "A."
+  - family-names: "Akbarzadeh-T."
+    given-names: "Mohammad-R."
+  - family-names: "Moradi"
+    given-names: "Ali"
+year: 2026

@@ -1,0 +1,35 @@
+STATISTICAL METHODS
+Each classifier was evaluated in a separate online run; therefore, observations from different classifiers were treated as independent.
+ST, CT, and RTA were compared using Kruskal-Wallis tests, followed by Holm-corrected Mann-Whitney U tests. Epsilon-squared and Cliff's delta were used as omnibus and pairwise effect sizes, respectively.
+Completion success was compared using Pearson chi-square tests, followed by Holm-corrected two-sided Fisher exact tests. CR values were reported with 95% Wilson confidence intervals.
+
+WITHIN-PROTOCOL CLASSIFIER EFFECTS
+Static ST: H(4) = 18.41, p = 0.0010, epsilon^2 = 0.074 (moderate).
+  Significant pairs: QDA vs SVM (p_adj = <0.001, delta = -0.612, large; better: QDA); QDA vs NN (p_adj = 0.048, delta = -0.362, medium; better: QDA).
+Static CT: H(4) = 16.45, p = 0.0025, epsilon^2 = 0.064 (moderate).
+  Significant pairs: QDA vs SVM (p_adj = <0.001, delta = -0.591, large; better: QDA).
+Static RTA: H(4) = 30.54, p = <0.001, epsilon^2 = 0.136 (moderate).
+  Significant pairs: QDA vs SVM (p_adj = <0.001, delta = 0.703, large; better: QDA); QDA vs kNN (p_adj = 0.012, delta = 0.362, medium; better: QDA); QDA vs NN (p_adj = 0.012, delta = 0.362, medium; better: QDA); SVM vs DNN (p_adj = 0.0081, delta = -0.408, medium; better: DNN).
+Dynamic ST: H(4) = 36.51, p = <0.001, epsilon^2 = 0.167 (large).
+  Significant pairs: QDA vs DNN (p_adj = 0.015, delta = 0.400, medium; better: DNN); SVM vs kNN (p_adj = <0.001, delta = 0.503, large; better: kNN); SVM vs NN (p_adj = <0.001, delta = 0.529, large; better: NN); SVM vs DNN (p_adj = <0.001, delta = 0.797, large; better: DNN).
+Dynamic CT: H(4) = 79.72, p = <0.001, epsilon^2 = 0.388 (large).
+  Significant pairs: QDA vs SVM (p_adj = <0.001, delta = -0.772, large; better: QDA); QDA vs NN (p_adj = 0.012, delta = -0.386, medium; better: QDA); SVM vs kNN (p_adj = <0.001, delta = 0.819, large; better: kNN); SVM vs NN (p_adj = <0.001, delta = 0.672, large; better: NN); SVM vs DNN (p_adj = <0.001, delta = 0.946, large; better: DNN); kNN vs NN (p_adj = <0.001, delta = -0.513, large; better: kNN); NN vs DNN (p_adj = <0.001, delta = 0.626, large; better: DNN).
+Dynamic RTA: H(4) = 48.93, p = <0.001, epsilon^2 = 0.230 (large).
+  Significant pairs: QDA vs SVM (p_adj = 0.0018, delta = 0.461, medium; better: QDA); SVM vs kNN (p_adj = <0.001, delta = -0.621, large; better: kNN); SVM vs NN (p_adj = <0.001, delta = -0.631, large; better: NN); SVM vs DNN (p_adj = <0.001, delta = -0.850, large; better: DNN).
+
+COMPLETION RATE
+Static CR: chi-square(4) = 23.00, p = <0.001, Cramer's V = 0.339 (moderate).
+  Significant pairs: QDA vs SVM (p_adj = <0.001, risk difference = 42.5 percentage points; better: QDA); QDA vs kNN (p_adj = 0.017, risk difference = 22.5 percentage points; better: QDA); QDA vs NN (p_adj = <0.001, risk difference = 37.5 percentage points; better: QDA); QDA vs DNN (p_adj = 0.0082, risk difference = 25.0 percentage points; better: QDA).
+Dynamic CR: chi-square(4) = 61.55, p = <0.001, Cramer's V = 0.555 (large).
+  Significant pairs: QDA vs SVM (p_adj = <0.001, risk difference = 50.0 percentage points; better: QDA); SVM vs kNN (p_adj = <0.001, risk difference = -55.0 percentage points; better: kNN); SVM vs NN (p_adj = 0.0013, risk difference = -42.5 percentage points; better: NN); SVM vs DNN (p_adj = <0.001, risk difference = -60.0 percentage points; better: DNN).
+
+STATIC-VERSUS-DYNAMIC PROTOCOL EFFECTS
+QDA ST: Static vs Dynamic p_adj = 0.011, delta = -0.399 (medium); better protocol: Static.
+SVM CT: Static vs Dynamic p_adj = 0.011, delta = -0.399 (medium); better protocol: Static.
+QDA RTA: Static vs Dynamic p_adj = 0.017, delta = 0.325 (small); better protocol: Static.
+SVM RTA: Static vs Dynamic p_adj = 0.028, delta = -0.331 (medium); better protocol: Dynamic.
+kNN RTA: Static vs Dynamic p_adj = 0.014, delta = -0.339 (medium); better protocol: Dynamic.
+NN RTA: Static vs Dynamic p_adj = 0.028, delta = -0.299 (small); better protocol: Dynamic.
+DNN CR: Static vs Dynamic p_adj = 0.0051; Dynamic minus Static = 25.0 percentage points; better protocol: Dynamic.
+
+Significance level: alpha = 0.050.
