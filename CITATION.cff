@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use these data or scripts, please cite the associated manuscript."
+message: "If you use these data or scripts, please cite the associated manuscript: Real-Time KineticoMyoGraphy-Based Hand Gesture Recognition Using a Patient-Specific Magnetic-Tag Emulator."
 title: "KMG Magnetic-Tag Emulator: Data and Analysis Code"
 type: dataset
 authors:
@@ -15,4 +15,5 @@ authors:
     given-names: "Mohammad-R."
   - family-names: "Moradi"
     given-names: "Ali"
+repository-code: "https://github.com/Bobsrn/KMG-Magnetic-Tag-Emulator"
 year: 2026
