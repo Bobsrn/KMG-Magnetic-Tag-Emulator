@@ -6,187 +6,168 @@ Data and code accompanying the manuscript:
 
 Mohammad-R Gholami-Z, Babak Sarani, Hojjat Hosseini, A. Akbarzadeh, Mohammad-R. Akbarzadeh-T., and Ali Moradi.
 
-## Overview
+Repository: https://github.com/Bobsrn/KMG-Magnetic-Tag-Emulator
 
-This repository contains experimental data, trained classifier files, and analysis code for the patient-specific KineticoMyoGraphy (KMG) magnetic-tag emulator study. All measurements were generated using the physical emulator; the repository does not contain human-subject KMG recordings.
+## Contents
 
-The release includes:
+This repository contains the experimental data, trained MATLAB classifier objects, and analysis code used for the magnetic-tag emulator study. The release includes:
 
-- a raw 40-feature acquisition CSV with class labels;
-- Static and Dynamic online evaluation results for QDA, SVM, kNN, NN, and DNN classifiers;
-- the trained MATLAB classifier objects used in the online experiments;
-- trial-level and summary CSV files for the online tests;
-- DNN limb-position-effect (LPE) result data;
+- the raw 40-feature acquisition dataset;
+- Static and Dynamic online evaluation results for QDA, SVM, kNN, NN, and DNN;
+- the trained classifier objects used in the online experiments;
+- compact-DNN limb-position-effect (LPE) data recorded on both the host PC and the system main board;
+- trial-level and summary CSV files;
 - statistical-analysis and plotting scripts;
-- the compact DNN architecture and training configuration used in the study.
+- the compact DNN architecture and training configuration reported in the manuscript.
+
+All measurements in this repository were generated using the physical magnetic-tag emulator. The repository does not contain human-subject KMG recordings.
 
 ## Repository structure
 
 ```text
 .
 ├── data/
-│   ├── raw/                 # Raw 40-feature acquisition CSV
+│   ├── raw/
+│   │   └── kmg_raw_acquisition.csv
 │   ├── online/
-│   │   ├── static/          # Static-trained classifier objects and online trials
-│   │   └── dynamic/         # Dynamic-trained classifier objects and online trials
-│   ├── lpe/                 # DNN LPE result file
-│   ├── processed/           # Trial-level and summary CSV files
-│   └── training/            # DNN model-development data format
+│   │   ├── static/          # QDA, SVM, kNN, NN, DNN
+│   │   └── dynamic/         # QDA, SVM, kNN, NN, DNN
+│   ├── lpe/
+│   │   └── dnn_lpe_pc_mainboard.mat
+│   ├── processed/
+│   └── training/
 ├── code/
-│   ├── reproduce_statistical_analysis.m
-│   ├── plot_figure7_static_dynamic.m
-│   ├── reproduce_lpe_table.m
+│   ├── reproduce_online_statistics.m
+│   ├── plot_online_results.m
+│   ├── analyze_dnn_lpe_pc_mainboard.m
+│   ├── export_online_results.py
+│   ├── export_dnn_lpe_results.py
 │   ├── predict_with_trained_dnn.m
 │   ├── train_dnn.m
 │   ├── train_all_dnn.m
-│   ├── load_kmg_training_data.m
+│   ├── load_training_data.m
 │   ├── load_raw_acquisition.m
 │   ├── csv_to_training_mat.m
-│   ├── export_online_csv.py
-│   ├── export_lpe_csv.py
-│   ├── inspect_raw_acquisition.py
 │   └── verify_release.py
 ├── docs/
-│   ├── DATA_DICTIONARY.md
-│   ├── FILE_PROVENANCE.md
-│   ├── EXPECTED_OUTPUTS.md
-│   └── file_manifest_sha256.csv
 ├── reference_outputs/
 └── outputs/
 ```
 
 ## Raw acquisition data
 
-`data/raw/mmdreza.csv` is a headerless numeric CSV containing 40 scalar magnetic-field features and one class-label column. The original row order is preserved.
+`data/raw/kmg_raw_acquisition.csv` is a headerless numeric CSV. Columns 1-40 contain the scalar magnetic-field features used by the direct-classification framework, and column 41 contains the class label.
 
-Columns 1-40 contain the scalar sensor features and column 41 contains the class label:
-
-1. Grasp and Release
-2. Wrist Flexion/Extension
-3. Fourth and Fifth Fingers
-4. Tripod Pinch
-5. Rest
+| Label | Class |
+|---:|---|
+| 1 | Grasp and Release |
+| 2 | Wrist Flexion/Extension |
+| 3 | Fourth and Fifth Fingers |
+| 4 | Tripod Pinch |
+| 5 | Rest |
 
 MATLAB:
 
 ```matlab
-[X, Y, raw] = load_raw_acquisition;
-```
-
-Python integrity check:
-
-```bash
-python code/inspect_raw_acquisition.py
+[X,Y,raw] = load_raw_acquisition;
 ```
 
 ## Static and Dynamic online evaluation
 
-Each protocol contains one MATLAB file per classifier:
+Each protocol folder contains one MAT file per classifier:
 
-- `QDA.mat`
-- `SVM.mat`
-- `kNN.mat`
-- `NN.mat`
-- `DNN.mat`
+`QDA.mat`, `SVM.mat`, `kNN.mat`, `NN.mat`, and `DNN.mat`.
 
-Each file contains four online trial structures:
+Each file contains `RTtest1` through `RTtest4`, corresponding to the four functional gestures. The trial structures contain:
 
-- `RTtest1`: Grasp and Release
-- `RTtest2`: Wrist Flexion/Extension
-- `RTtest3`: Fourth and Fifth Fingers
-- `RTtest4`: Tripod Pinch
+- `timeST`: Selection Time (s)
+- `timeCT`: Completion Time (s)
+- `ACC`: Real-Time Accuracy as a proportion
 
-Each structure contains Selection Time (`timeST`), Completion Time (`timeCT`), and Real-Time Accuracy (`ACC`). There are 10 trials per functional gesture and 40 online trials per classifier.
+The processed long-format data are available in `data/processed/online_trials.csv`.
 
-The corresponding long-format dataset is `data/processed/online_trials.csv`.
-
-Completion Rate (CR) is calculated as the percentage of requested gesture trials with `CT <= 1.125 s`. RTA is reported separately.
-
-## Statistical analysis
-
-Run:
-
-```matlab
-run('code/reproduce_statistical_analysis.m')
-```
-
-The script performs the independent-run statistical analysis used for the Static and Dynamic online experiments, including Kruskal-Wallis tests, Holm-corrected Mann-Whitney U comparisons, effect sizes, Completion Rate comparisons, Wilson confidence intervals, and direct Static-versus-Dynamic comparisons.
-
-Generated files are written to `outputs/analysis/`.
-
-## Figure 7
-
-Run:
-
-```matlab
-run('code/plot_figure7_static_dynamic.m')
-```
-
-Generated figure files are written to `outputs/figures/`.
-
-## Limb-position-effect data
-
-`data/lpe/DNN_LPE.mat` contains the archived DNN results used for the LPE analysis. Historical MATLAB variable names are retained in the file.
-
-Processed LPE files are provided in `data/processed/`:
-
-- `lpe_trials.csv`
-- `lpe_condition_summary.csv`
-- `lpe_summary.csv`
-
-To reproduce the pooled LPE summary in MATLAB:
-
-```matlab
-run('code/reproduce_lpe_table.m')
-```
-
-To regenerate the processed CSV files in Python:
+To regenerate the processed files:
 
 ```bash
-python code/export_lpe_csv.py
+python code/export_online_results.py
 ```
 
-## DNN architecture and training configuration
+To reproduce the statistical analysis used for the Static/Dynamic comparison:
+
+```matlab
+run('code/reproduce_online_statistics.m')
+```
+
+To regenerate the integrated online-performance figure:
+
+```matlab
+run('code/plot_online_results.m')
+```
+
+## Compact-DNN LPE and main-board data
+
+`data/lpe/dnn_lpe_pc_mainboard.mat` contains the compact-DNN results recorded for the controlled LPE experiment on both the host PC and the system main board.
+
+The MAT file preserves the historical internal variable names `TestResults_mlp_*`; these structures correspond to the compact feedforward DNN used in the study.
+
+For each recorded LPE condition and each of the four functional gestures, the file contains matched PC and main-board task metrics (`timeST`, `timeCT`, and `ACC`) together with synchronized PC and main-board prediction streams.
+
+Processed outputs include:
+
+- `dnn_lpe_trials.csv`
+- `table_v_dnn_lpe_pc.csv`
+- `table_vi_dnn_pc_mainboard.csv`
+- `dnn_lpe_condition_summary.csv`
+- `dnn_pc_mainboard_paired_statistics.csv`
+- `dnn_prediction_agreement.csv`
+
+To regenerate these files:
+
+```bash
+python code/export_dnn_lpe_results.py
+```
+
+MATLAB analysis:
+
+```matlab
+run('code/analyze_dnn_lpe_pc_mainboard.m')
+```
+
+The PC/MainBoard implementation comparison uses matched trials. ST, CT, and RTA are compared using two-sided Wilcoxon signed-rank tests; Completion Rate is compared using the exact McNemar test. Holm correction is applied across the four implementation comparisons.
+
+## DNN architecture
 
 The compact DNN configuration is implemented in `code/train_dnn.m`:
 
 - 40 input features;
 - hidden layers of 128, 64, and 32 ReLU units;
 - five-class softmax output;
+- cross-entropy loss;
 - Adam optimizer;
 - 30 epochs;
-- mini-batch size of 64;
+- mini-batch size 64;
 - 80% model fitting and 20% internal model-development holdout;
 - shuffling at every epoch.
 
-The released online `DNN.mat` files contain the trained DNN models used in the online experiments. `code/predict_with_trained_dnn.m` loads these archived models for inference.
+The released `DNN.mat` files contain the trained Static and Dynamic models used in the online experiments. `code/predict_with_trained_dnn.m` provides a simple inference helper.
 
-The DNN training function accepts protocol-specific model-development data in the format documented in `data/training/README.md`. The combined raw acquisition stream is released separately under `data/raw/` and is not automatically partitioned into protocol-specific training subsets by the repository scripts.
+Protocol-specific model-development matrices can be supplied to `train_dnn.m` in the format described in `data/training/README.md`.
 
-## Python access
+## Software
 
-Install the minimal Python dependencies with:
+The MATLAB experiments were developed in MATLAB R2024b. The statistical scripts require Statistics and Machine Learning Toolbox, and DNN training requires Deep Learning Toolbox.
 
-```bash
-pip install -r requirements.txt
-```
+Python utilities require `numpy`, `pandas`, and `scipy`.
 
-Regenerate processed datasets with:
+## Verification
 
-```bash
-python code/export_online_csv.py
-python code/export_lpe_csv.py
-```
-
-Run the release consistency check with:
+Run:
 
 ```bash
 python code/verify_release.py
 ```
 
-## Software
-
-The experiments and MATLAB models were developed in MATLAB R2024b. The statistical-analysis scripts require the Statistics and Machine Learning Toolbox. DNN training requires Deep Learning Toolbox.
+The script regenerates the processed CSV files and checks the expected trial counts and key manuscript-level summaries.
 
 ## Citation
 

@@ -1,36 +1,21 @@
 # Expected Outputs
 
-The values below are obtained directly from the released trial data.
-
-## Static online evaluation
-
-| Model | ST (s) | CT (s) | RTA (%) | CR (%) |
-|---|---:|---:|---:|---:|
-| QDA | 0.035 ± 0.018 | 1.051 ± 0.029 | 99.16 ± 1.49 | 100.0 |
-| SVM | 0.101 ± 0.050 | 1.113 ± 0.064 | 92.65 ± 4.62 | 57.5 |
-| kNN | 0.082 ± 0.059 | 1.081 ± 0.063 | 95.16 ± 4.99 | 77.5 |
-| NN | 0.100 ± 0.087 | 1.109 ± 0.095 | 93.77 ± 6.99 | 62.5 |
-| DNN | 0.061 ± 0.059 | 1.077 ± 0.077 | 96.94 ± 4.92 | 75.0 |
-
-## Dynamic online evaluation
-
-| Model | ST (s) | CT (s) | RTA (%) | CR (%) |
-|---|---:|---:|---:|---:|
-| QDA | 0.060 ± 0.037 | 1.069 ± 0.047 | 96.92 ± 3.51 | 90.0 |
-| SVM | 0.082 ± 0.036 | 1.156 ± 0.046 | 94.07 ± 2.39 | 40.0 |
-| kNN | 0.047 ± 0.036 | 1.064 ± 0.043 | 98.09 ± 3.26 | 95.0 |
-| NN | 0.051 ± 0.041 | 1.097 ± 0.037 | 98.03 ± 3.23 | 82.5 |
-| DNN | 0.034 ± 0.014 | 1.059 ± 0.022 | 98.66 ± 1.34 | 100.0 |
-
-## Pooled LPE evaluation
-
-The LPE values below pool 60 trials per gesture across the one nominal baseline condition and five controlled shifted-baseline conditions.
+## Table V: compact DNN on PC under controlled LPE conditions
 
 | Gesture | ST (s) | CT (s) | RTA (%) | CR (%) |
 |---|---:|---:|---:|---:|
-| Grasp and Release | 0.052 ± 0.054 | 1.105 ± 0.155 | 92.03 ± 11.02 | 71.7 |
-| Wrist Flexion/Extension | 0.117 ± 0.196 | 1.155 ± 0.243 | 89.67 ± 14.76 | 65.0 |
-| Fourth and Fifth Fingers | 0.051 ± 0.057 | 1.037 ± 0.063 | 96.66 ± 5.48 | 90.0 |
-| Tripod Pinch | 0.039 ± 0.029 | 1.008 ± 0.045 | 97.58 ± 4.75 | 98.3 |
+| Grasp and Release | 0.064 ± 0.114 | 1.040 ± 0.141 | 96.75 ± 8.27 | 86.7 |
+| Wrist Flexion/Extension | 0.027 ± 0.006 | 0.990 ± 0.034 | 99.96 ± 0.31 | 100.0 |
+| Fourth and Fifth Fingers | 0.075 ± 0.048 | 1.064 ± 0.082 | 93.10 ± 6.15 | 71.7 |
+| Tripod Pinch | 0.034 ± 0.021 | 0.991 ± 0.053 | 95.89 ± 6.36 | 95.0 |
 
-Values are mean ± sample standard deviation. CR uses `CT <= 1.125 s`.
+## Table VI: compact-DNN PC vs main-board implementation
+
+| Implementation | ST (s) | CT (s) | RTA (%) | CR (%) |
+|---|---:|---:|---:|---:|
+| PC | 0.050 ± 0.065 | 1.021 ± 0.092 | 96.43 ± 6.50 | 88.3 |
+| Main Board | 0.057 ± 0.081 | 1.083 ± 0.088 | 96.21 ± 6.69 | 81.7 |
+
+Paired comparison (Holm-adjusted): ST `p = 0.00557`, CT `p < 0.001`, RTA `p = 0.158`, CR `p = 0.000435`.
+
+Across 84,095 synchronized classifier outputs, PC and main-board class predictions agree in 98.10% of samples.

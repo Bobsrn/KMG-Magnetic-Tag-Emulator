@@ -1,9 +1,3 @@
-% reproduce_statistical_analysis.m
-% Reproduces the independent-run statistical analysis reported for the
-% Static and Dynamic online experiments.
-% Requires MATLAB Statistics and Machine Learning Toolbox.
-% Data and output paths are resolved relative to this repository.
-
 clearvars;
 close all;
 clc;
@@ -76,7 +70,6 @@ outputDir = fullfile(repoRoot, 'outputs', 'analysis');
 if ~isfolder(outputDir)
     mkdir(outputDir);
 end
-
 outputExcel = fullfile(outputDir, 'KMG_Independent_Statistical_Analysis.xlsx');
 outputMAT = fullfile(outputDir, 'KMG_Independent_Statistical_Analysis.mat');
 outputText = fullfile(outputDir, 'KMG_Manuscript_Statistical_Summary.txt');
@@ -89,21 +82,8 @@ if isfile(outputText)
 end
 
 %% File names
-staticFiles = {
-    'QDA.mat'
-    'SVM.mat'
-    'kNN.mat'
-    'NN.mat'
-    'DNN.mat'
-    };
-
-dynamicFiles = {
-    'QDA.mat'
-    'SVM.mat'
-    'kNN.mat'
-    'NN.mat'
-    'DNN.mat'
-    };
+staticFiles = {'QDA.mat'; 'SVM.mat'; 'kNN.mat'; 'NN.mat'; 'DNN.mat'};
+dynamicFiles = {'QDA.mat'; 'SVM.mat'; 'kNN.mat'; 'NN.mat'; 'DNN.mat'};
 
 fileNames = {staticFiles, dynamicFiles};
 
@@ -540,8 +520,7 @@ function longTable = buildLongDataTable( ...
 
                 currentSuccess = false(nTrials, 1);
                 validTrial = isfinite(currentCT);
-                currentSuccess(validTrial) = ...
-                    currentCT(validTrial) <= ctThreshold;
+                currentSuccess(validTrial) = currentCT(validTrial) <= ctThreshold;
 
                 Protocol = [Protocol; repmat(string(protocolNames{p}), nTrials, 1)]; %#ok<AGROW>
                 Model = [Model; repmat(string(modelNames{m}), nTrials, 1)]; %#ok<AGROW>

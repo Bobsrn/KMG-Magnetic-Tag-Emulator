@@ -1,8 +1,3 @@
-% plot_figure7_static_dynamic.m
-% Reproduces the integrated Static/Dynamic boxplots used in Fig. 7.
-% Requires MATLAB R2020a or newer for boxchart/exportgraphics.
-% Data paths are resolved relative to this repository.
-
 clearvars;
 close all;
 clc;
@@ -18,35 +13,20 @@ numModels   = numel(modelNames);
 numGestures = 4;
 numProtocols = numel(protocolNames);
 
-%% Repository-relative paths
-% This script is portable when kept inside the repository's code folder.
+%% Repository-relative data and output paths
 scriptDir = fileparts(mfilename('fullpath'));
 repoRoot = fileparts(scriptDir);
 rootStatic = fullfile(repoRoot, 'data', 'online', 'static');
 rootDynamic = fullfile(repoRoot, 'data', 'online', 'dynamic');
 rootFolders = {rootStatic, rootDynamic};
-
 outputDir = fullfile(repoRoot, 'outputs', 'figures');
 if ~isfolder(outputDir)
     mkdir(outputDir);
 end
 
 %% File names
-staticFiles = {
-    'QDA.mat'
-    'SVM.mat'
-    'kNN.mat'
-    'NN.mat'
-    'DNN.mat'
-    };
-
-dynamicFiles = {
-    'QDA.mat'
-    'SVM.mat'
-    'kNN.mat'
-    'NN.mat'
-    'DNN.mat'
-    };
+staticFiles = {'QDA.mat'; 'SVM.mat'; 'kNN.mat'; 'NN.mat'; 'DNN.mat'};
+dynamicFiles = {'QDA.mat'; 'SVM.mat'; 'kNN.mat'; 'NN.mat'; 'DNN.mat'};
 
 fileNames = {staticFiles, dynamicFiles};
 

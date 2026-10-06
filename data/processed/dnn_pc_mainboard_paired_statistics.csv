@@ -1,0 +1,5 @@
+Metric,Test,N_pairs,PC_mean,MainBoard_mean,Mean_difference_MainBoard_minus_PC,Median_difference_MainBoard_minus_PC,Statistic,P_raw,Effect_size,Effect_size_name,P_Holm,PC_only_successes,MainBoard_only_successes
+ST_s,Wilcoxon signed-rank,240,0.0500836542,0.05676725,0.00668359583,9.99998448e-07,9789.5,0.00278642975,0.22993117,matched rank-biserial correlation,0.00557285949,,
+CT_s,Wilcoxon signed-rank,240,1.02126625,1.08345517,0.0621889208,0.0562755,3,8.46114533e-40,0.999778008,matched rank-biserial correlation,3.38445813e-39,,
+RTA_pct,Wilcoxon signed-rank,240,96.4252826,96.2104442,-0.214838416,0,1361,0.157508558,-0.180367359,matched rank-biserial correlation,0.157508558,,
+CR,Exact McNemar,240,88.3333333,81.6666667,-6.66666667,,18,0.000144958496,,,0.000434875488,17,1
