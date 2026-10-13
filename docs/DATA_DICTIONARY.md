@@ -20,9 +20,11 @@ The online Completion Rate is computed from the task completion-time criterion (
 
 ## Compact-DNN LPE result file
 
-`data/lpe/dnn_lpe_pc_mainboard.mat` contains six recorded LPE result blocks. Historical internal variable names use the prefix `TestResults_mlp_*`; these structures correspond to the compact DNN used in the manuscript.
+`data/lpe/dnn_lpe_pc_mainboard.mat` contains exactly five result structures, labeled by physical baseline shift: `DNN_LPE_0mm`, `DNN_LPE_1p5mm`, `DNN_LPE_3mm`, `DNN_LPE_4p5mm` and `DNN_LPE_6mm`.
 
-Each block contains:
+The shifts are also stored under `condition_shift_mm`, and the MATLAB variable names are listed in `condition_variable_names`. The investigator-confirmed displacements and original recording variable names are provided in `data/lpe/condition_metadata.csv`.
+
+Each result structure contains:
 
 - `net_actual`: requested/actual class stream
 - `net_pred`: PC prediction stream
@@ -30,7 +32,7 @@ Each block contains:
 - `RTtest.pc`: task-level PC results
 - `RTtest.mb`: task-level main-board results
 
-For each hardware implementation, four gesture entries are stored under `RTtest`. The public analysis uses the first 10 matched trials per gesture and condition, consistent with the recorded online protocol.
+The analysis uses 10 matched trials per gesture and condition on each implementation, yielding 50 trials per gesture and 200 paired trials. The original prediction streams and trial outcomes are unchanged; only top-level condition names were corrected and non-study records omitted.
 
 ## Processed files
 
@@ -43,3 +45,5 @@ For each hardware implementation, four gesture entries are stored under `RTtest`
 - `dnn_lpe_condition_summary.csv`: condition-level DNN descriptives
 - `dnn_pc_mainboard_paired_statistics.csv`: paired implementation tests
 - `dnn_prediction_agreement.csv`: synchronized prediction-stream agreement
+- `dnn_prediction_agreement_by_condition.csv`: agreement in each analyzed LPE condition
+- `data/lpe/condition_metadata.csv`: condition order, corrected physical shift and MAT variable names

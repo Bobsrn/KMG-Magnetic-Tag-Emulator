@@ -1,8 +1,8 @@
 % analyze_dnn_lpe_pc_mainboard.m
 % Reproduce compact-DNN LPE results and compare PC vs main-board execution.
 %
-% The MAT file preserves historical TestResults_mlp_* variable names.
-% These structures correspond to the compact feedforward DNN used in the study.
+% The MAT file contains five compact-DNN result structures labeled by
+% the investigator-confirmed baseline shift in millimeters.
 
 clearvars;
 clc;
@@ -14,12 +14,15 @@ outputDir = fullfile(repoRoot, 'outputs', 'analysis');
 if ~isfolder(outputDir), mkdir(outputDir); end
 
 S = load(sourceFile);
-conditionVars = {'TestResults_mlp_0','TestResults_mlp_15','TestResults_mlp_25', ...
-                 'TestResults_mlp_5','TestResults_mlp_6','TestResults_mlp_75'};
+conditionVars = {'DNN_LPE_0mm','DNN_LPE_1p5mm', ...
+                 'DNN_LPE_3mm','DNN_LPE_4p5mm','DNN_LPE_6mm'};
+physicalShift_mm = [0 1.5 3.0 4.5 6.0];
+assert(isequal(S.condition_shift_mm(:)', physicalShift_mm), ...
+    'Condition shifts in MAT file differ from the selected protocol.');
 gestureNames = {'Grasp and Release','Wrist Flexion/Extension', ...
                 'Fourth and Fifth Fingers','Tripod Pinch'};
 hardwareFields = {'pc','mb'};
-hardwareNames = {'PC','Main Board'};
+hardwareNames = {'PC','MainBoard'};
 ctThreshold = 1.125;
 maxRuns = 10;
 
@@ -32,11 +35,13 @@ for c = 1:numel(conditionVars)
             D = R.RTtest.(hardwareFields{h}){1,g};
             n = min([numel(D.timeST), numel(D.timeCT), numel(D.ACC), maxRuns]);
             st = D.timeST(1:n); ct = D.timeCT(1:n); rta = 100*D.ACC(1:n);
-            completion = ct(:) < ctThreshold;
+            completion = ct(:) <= ctThreshold;
             block = table(repmat(c,n,1), repmat(string(conditionVars{c}),n,1), ...
+                repmat(physicalShift_mm(c),n,1), ...
                 repmat(g,n,1), repmat(string(gestureNames{g}),n,1), (1:n)', ...
                 repmat(string(hardwareNames{h}),n,1), st(:), ct(:), rta(:), completion, ...
-                'VariableNames', {'ConditionID','SourceCondition','GestureID','Gesture', ...
+                'VariableNames', {'ConditionID','SourceCondition', ...
+                'PhysicalDisplacement_mm','GestureID','Gesture', ...
                 'Trial','Hardware','ST_s','CT_s','RTA_pct','Completion'});
             T = [T; block]; %#ok<AGROW>
         end
@@ -62,7 +67,7 @@ disp(tableVI);
 % Matched PC/MainBoard comparisons.
 keys = {'ConditionID','GestureID','Trial'};
 pcPair = sortrows(T(T.Hardware=="PC",:), keys);
-mbPair = sortrows(T(T.Hardware=="Main Board",:), keys);
+mbPair = sortrows(T(T.Hardware=="MainBoard",:), keys);
 if ~isequal(pcPair{:,keys}, mbPair{:,keys})
     error('PC and Main Board trial keys do not align.');
 end
@@ -119,9 +124,9 @@ actual=[]; pcPred=[]; mbPred=[];
 for c=1:numel(conditionVars)
     R=S.(conditionVars{c});
     n=min([numel(R.net_actual),numel(R.net_pred),numel(R.net_main_pred)]);
-    actual=[actual; R.net_actual(1:n)']; %#ok<AGROW>
-    pcPred=[pcPred; R.net_pred(1:n)']; %#ok<AGROW>
-    mbPred=[mbPred; R.net_main_pred(1:n)']; %#ok<AGROW>
+    actual=[actual; reshape(R.net_actual(1:n),[],1)]; %#ok<AGROW>
+    pcPred=[pcPred; reshape(R.net_pred(1:n),[],1)]; %#ok<AGROW>
+    mbPred=[mbPred; reshape(R.net_main_pred(1:n),[],1)]; %#ok<AGROW>
 end
 agreement = table(numel(actual), 100*mean(pcPred==actual), ...
     100*mean(mbPred==actual), 100*mean(pcPred==mbPred), ...
@@ -130,6 +135,7 @@ agreement = table(numel(actual), 100*mean(pcPred==actual), ...
 disp('Prediction-stream agreement');
 disp(agreement);
 
+writetable(T, fullfile(outputDir,'dnn_lpe_trials.csv'));
 writetable(tableV, fullfile(outputDir,'table_v_dnn_lpe_pc.csv'));
 writetable(tableVI, fullfile(outputDir,'table_vi_dnn_pc_mainboard.csv'));
 writetable(statRows, fullfile(outputDir,'dnn_pc_mainboard_paired_statistics.csv'));

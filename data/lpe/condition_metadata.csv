@@ -1,0 +1,6 @@
+ConditionID,MATVariable,PhysicalDisplacement_mm,OriginalResultVariable
+1,DNN_LPE_0mm,0.0,TestResults_mlp_0
+2,DNN_LPE_1p5mm,1.5,TestResults_mlp_15
+3,DNN_LPE_3mm,3.0,TestResults_mlp_25
+4,DNN_LPE_4p5mm,4.5,TestResults_mlp_5
+5,DNN_LPE_6mm,6.0,TestResults_mlp_6

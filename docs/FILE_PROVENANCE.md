@@ -1,6 +1,6 @@
 # File Provenance
 
-The public filenames are simplified versions of the research working filenames. Numerical contents of the released MAT and CSV data files are not modified.
+The public filenames are simplified versions of the research working filenames. The released MAT files retain the original online measurements; the LPE file has been curated as described below. Processed CSV files are regenerated from the explicitly selected five-position analysis, and corrected physical-shift metadata are stored separately.
 
 ## Static online results
 
@@ -22,12 +22,16 @@ The public filenames are simplified versions of the research working filenames. 
 | `data/online/dynamic/NN.mat` | `simData_250426_5cls_realtimeresults_withData[3]_NN[2].mat` |
 | `data/online/dynamic/DNN.mat` | `simData_250426_5cls_realtimeresults_withData[3]_NN3[2].mat` |
 
-## DNN LPE and embedded implementation
+## Curated LPE source
 
-`data/lpe/dnn_lpe_pc_mainboard.mat` is a public-facing copy of:
+The published `data/lpe/dnn_lpe_pc_mainboard.mat` is an analysis-ready five-condition extract from the recorded compact-DNN PC/main-board experiment. The original source file is retained by the investigators. The correspondence of source result blocks to corrected variables is:
 
-`result_ElbowMove6segment_mb_pc_mlp3layer_40hz_ws1sample_31122025.mat`
+| Original result variable | Published variable | Physical baseline shift (mm) |
+|---|---|---:|
+| `TestResults_mlp_0` | `DNN_LPE_0mm` | 0.0 |
+| `TestResults_mlp_15` | `DNN_LPE_1p5mm` | 1.5 |
+| `TestResults_mlp_25` | `DNN_LPE_3mm` | 3.0 |
+| `TestResults_mlp_5` | `DNN_LPE_4p5mm` | 4.5 |
+| `TestResults_mlp_6` | `DNN_LPE_6mm` | 6.0 |
 
-The `mlp` prefix is a historical working name for the compact three-hidden-layer feedforward DNN. The released file contains matched PC and main-board results.
-
-The separate experimental 1D-convolutional dataset is not included in this repository because it is not used for the manuscript results released here.
+The physical shifts were confirmed by the investigators. The original source had inaccurate nominal labels for the 3.0-mm and 4.5-mm conditions. The curated MAT includes only the five analyzed conditions. All retained task-level metrics and synchronized prediction streams were copied without numerical modification, and original trial structures remain intact. Source command templates were not redistributed in this curated results file because their stored nominal values were not the confirmed physical displacements. The mapping does not constitute a new calibration measurement.

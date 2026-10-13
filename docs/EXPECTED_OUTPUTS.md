@@ -1,21 +1,34 @@
-# Expected Outputs
+# Expected outputs — five-point compact-DNN LPE evaluation
 
-## Table V: compact DNN on PC under controlled LPE conditions
+The curated MAT file contains five condition-labeled result blocks at physical shifts of 0, 1.5, 3.0, 4.5 and 6.0 mm. The reported summaries use 10 trials per gesture and condition on each hardware implementation. Class predictions and trial metrics were not changed.
+
+## Table V: compact DNN on PC
 
 | Gesture | ST (s) | CT (s) | RTA (%) | CR (%) |
 |---|---:|---:|---:|---:|
-| Grasp and Release | 0.064 ± 0.114 | 1.040 ± 0.141 | 96.75 ± 8.27 | 86.7 |
-| Wrist Flexion/Extension | 0.027 ± 0.006 | 0.990 ± 0.034 | 99.96 ± 0.31 | 100.0 |
-| Fourth and Fifth Fingers | 0.075 ± 0.048 | 1.064 ± 0.082 | 93.10 ± 6.15 | 71.7 |
-| Tripod Pinch | 0.034 ± 0.021 | 0.991 ± 0.053 | 95.89 ± 6.36 | 95.0 |
+| Grasp and Release | 0.064 ± 0.116 | 1.039 ± 0.144 | 96.62 ± 8.36 | 88.0 |
+| Wrist Flexion/Extension | 0.027 ± 0.007 | 0.988 ± 0.031 | 100.00 ± 0.00 | 100.0 |
+| Fourth and Fifth Fingers | 0.063 ± 0.041 | 1.043 ± 0.069 | 94.69 ± 5.36 | 82.0 |
+| Tripod Pinch | 0.033 ± 0.015 | 0.995 ± 0.056 | 98.32 ± 2.95 | 94.0 |
 
-## Table VI: compact-DNN PC vs main-board implementation
+All values are mean ± sample SD for ST, CT and RTA; CR follows `CT <= 1.125 s`.
+
+## Table VI: compact-DNN PC vs main-board comparison
 
 | Implementation | ST (s) | CT (s) | RTA (%) | CR (%) |
 |---|---:|---:|---:|---:|
-| PC | 0.050 ± 0.065 | 1.021 ± 0.092 | 96.43 ± 6.50 | 88.3 |
-| Main Board | 0.057 ± 0.081 | 1.083 ± 0.088 | 96.21 ± 6.69 | 81.7 |
+| PC | 0.047 ± 0.064 | 1.016 ± 0.089 | 97.41 ± 5.51 | 91.0 |
+| Main board | 0.052 ± 0.077 | 1.078 ± 0.085 | 97.17 ± 5.85 | 84.0 |
 
-Paired comparison (Holm-adjusted): ST `p = 0.00557`, CT `p < 0.001`, RTA `p = 0.158`, CR `p = 0.000435`.
+There are **200 matched task trials** (5 positions × 4 gestures × 10 repetitions).
 
-Across 84,095 synchronized classifier outputs, PC and main-board class predictions agree in 98.10% of samples.
+## Paired statistical comparisons
+
+| Metric | Main board − PC | Holm-adjusted p |
+|---|---:|---:|
+| ST | +5.41 ms | 0.01946 |
+| CT | +62.34 ms | <0.001 |
+| RTA | −0.241 percentage points | 0.12227 |
+| CR | −7.0 percentage points | 0.00156 |
+
+PC and main-board predictions agree in **98.264% of 69,988 synchronized outputs**. Samplewise agreement is descriptive because observations within trial streams are temporally correlated.

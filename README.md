@@ -108,9 +108,11 @@ run('code/plot_online_results.m')
 
 `data/lpe/dnn_lpe_pc_mainboard.mat` contains the compact-DNN results recorded for the controlled LPE experiment on both the host PC and the system main board.
 
-The MAT file preserves the historical internal variable names `TestResults_mlp_*`; these structures correspond to the compact feedforward DNN used in the study.
+The five result structures are named `DNN_LPE_0mm`, `DNN_LPE_1p5mm`, `DNN_LPE_3mm`, `DNN_LPE_4p5mm` and `DNN_LPE_6mm`. Their physical displacements are also stored within the MAT file and in `data/lpe/condition_metadata.csv`.
 
-For each recorded LPE condition and each of the four functional gestures, the file contains matched PC and main-board task metrics (`timeST`, `timeCT`, and `ACC`) together with synchronized PC and main-board prediction streams.
+The curated MAT contains the **five operating points** used in the study (0, 1.5, 3.0, 4.5, and 6.0 mm), corresponding to 50 PC trials per gesture and 200 matched PC/main-board trials. The variable names and condition metadata use the investigator-confirmed displacements, while the measured trial metrics and recorded class streams remain unchanged. See `data/lpe/README.md` for the variable names and metadata.
+
+For each LPE recording block and each of the four functional gestures, the file contains matched PC and main-board task metrics (`timeST`, `timeCT`, and `ACC`) together with synchronized PC and main-board prediction streams.
 
 Processed outputs include:
 
@@ -120,6 +122,7 @@ Processed outputs include:
 - `dnn_lpe_condition_summary.csv`
 - `dnn_pc_mainboard_paired_statistics.csv`
 - `dnn_prediction_agreement.csv`
+- `dnn_prediction_agreement_by_condition.csv`
 
 To regenerate these files:
 
